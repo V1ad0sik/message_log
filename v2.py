@@ -24,13 +24,12 @@ while True:
 
 			log += 1
 
-			massage = vk.messages.getDialogs(count = 20, unread = 1)
-			print(massage)
+			message = vk.messages.getDialogs(count = 20, unread = 1)
 
-			date = datetime.datetime.fromtimestamp(massage['items'][0]['message']['date'])
+			date = datetime.datetime.fromtimestamp(message['items'][0]['message']['date'])
 			data = date.strftime('%H:%M')
-			text = massage['items'][0]['message']['body']
-			user_id = int(massage['items'][0]['message']['user_id'])
+			text = message['items'][0]['message']['body']
+			user_id = int(message['items'][0]['message']['user_id'])
 
 			if user_id > 0:
 					user = vk_session.method("users.get", {"user_ids": user_id})
@@ -39,18 +38,18 @@ while True:
 				user_name = 'Сообщество'
 
 			try:
-				massage['items'][0]['message']['attachments']
+				message['items'][0]['message']['attachments']
 				attachments_status = 1
 			except:
 				attachments_status = 0
 
 			if attachments_status == 1:
-				attachments = massage['items'][0]['message']['attachments'][0]['type']
+				attachments = message['items'][0]['message']['attachments'][0]['type']
 
 			else:
 				attachments = ''
 
-			if massage['items'][0]['message']['body'] != '' and attachments_status == 0:
+			if message['items'][0]['message']['body'] != '' and attachments_status == 0:
 				log += 1
 
 				print(f"> [{user_name} | {data} | log: {log}] Сообщение: {text} ")
@@ -63,9 +62,9 @@ while True:
 					pass
 
 			if attachments == 'photo':
-				url = massage['items'][0]['message']['attachments'][0]['photo']['sizes'][-1]['url']
+				url = message['items'][0]['message']['attachments'][0]['photo']['sizes'][-1]['url']
 
-				if massage['items'][0]['message']['body'] != '':
+				if message['items'][0]['message']['body'] != '':
 					print(f"> [{user_name} | {data} | log: {log}] Сообщение: {text} (photo) ")
 
 					try:
@@ -86,9 +85,9 @@ while True:
 						pass
 
 			if attachments == 'video':
-				url = massage['items'][0]['message']['attachments'][0]['video']['player']
+				url = message['items'][0]['message']['attachments'][0]['video']['player']
 
-				if massage['items'][0]['message']['body'] != '':
+				if message['items'][0]['message']['body'] != '':
 					print(f"> [{user_name} | {data} | log: {log}] Сообщение: {text} (video) ")
 
 					try:
@@ -109,9 +108,9 @@ while True:
 						pass
 
 			if attachments == 'doc':
-				url = massage['items'][0]['message']['attachments'][0]['doc']['url']
+				url = message['items'][0]['message']['attachments'][0]['doc']['url']
 
-				if massage['items'][0]['message']['body'] != '':
+				if message['items'][0]['message']['body'] != '':
 					print(f"> [{user_name} | {data} | log: {log}] Сообщение: {text} (document) ")
 
 					try:
@@ -132,7 +131,7 @@ while True:
 						pass
 
 			if attachments == 'sticker':
-				url = massage['items'][0]['message']['attachments'][0]['sticker']['images'][0]['url']
+				url = message['items'][0]['message']['attachments'][0]['sticker']['images'][0]['url']
 				print(f"> [{user_name} | {data} | log: {log}] (sticker) ")
 
 				try:
@@ -143,7 +142,7 @@ while True:
 					pass
 
 			if attachments == 'audio_message':
-				url = massage['items'][0]['message']['attachments'][0]['audio_message']['link_mp3']
+				url = message['items'][0]['message']['attachments'][0]['audio_message']['link_mp3']
 				print(f"> [{user_name} | {data} | log: {log}] (audio_message) ")
 
 				try:
